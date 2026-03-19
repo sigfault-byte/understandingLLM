@@ -17,6 +17,11 @@ max_iters = 5000
 eval_interval = 500
 learning_rate = 3e-4
 device = "cuda" if torch.cuda.is_available() else "cpu"
+print("torch.cuda.is_available():", torch.cuda.is_available())
+print("device:", device)
+if torch.cuda.is_available():
+    print("cuda device count:", torch.cuda.device_count())
+    print("cuda device name:", torch.cuda.get_device_name(0))
 eval_iters = 200
 n_embd = 384
 n_layers = 6
@@ -108,7 +113,7 @@ class Head(nn.Module):
         )  # karpathy said C instead of head_size, but mentioned headsize before
         wei = wei.masked_fill(self.tril[:T, :T] == 0, float("-inf"))
         wei = F.softmax(wei, dim=-1)
-        self.dropout(wei)
+        wei = self.dropout(wei)
         # perform the weighted aggregation of the values
         v = self.value(x)  # (B, T, C) this is ehad_size too
         out = wei @ v
@@ -125,7 +130,7 @@ class MultiHeadAttention(nn.Module):
 
     def forward(self, x):
         out = torch.cat([h(x) for h in self.heads], dim=-1)
-        self.dropout(self.proj(out))
+        out = self.dropout(self.proj(out))
         return out
 
 
@@ -191,6 +196,7 @@ class BigramLanguageModel(nn.Module):
         # x = self.sa_heads(x)
         # x = self.ffwd(x)
         x = self.blocks(x)
+        x = self.ln_f(x)
         logits = self.lm_head(x)  # B, T, vocab_size
 
         if targets is None:
@@ -229,6 +235,7 @@ class BigramLanguageModel(nn.Module):
 
 model = BigramLanguageModel()
 m = model.to(device)
+print("model parameter device:", next(model.parameters()).device)
 
 # create a Pytorch optimizer
 start = time.time()
@@ -277,6 +284,9 @@ for iter in range(max_iters):
 
     # sample batch of data
     xb, yb = get_batch("train")
+    if iter == 0:
+        print("xb device:", xb.device)
+        print("yb device:", yb.device)
 
     # evaluate the loss
     logits, loss = model(xb, yb)
