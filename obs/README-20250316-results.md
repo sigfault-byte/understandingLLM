@@ -101,7 +101,36 @@ HENENO:
 Nand pourvert bee me-it deray
 Jill to he broueds abl, p
 ```
+---
+After moving to :
+    - B = 64
+    - T = 256
+    - C = 384
+    - head = 6
+    - layer = 6
+    - max\_iters = 5000
+    - lr = 3e-4
+    
+```bash
+, borne more. Come on, Catesby, good made her:
+And then Hereford, it die for me yourself
+Before I crutched extempt me turning:
+How far men of his wife were a thousand fled,
+When I see, rancour here, we have lefter many:
+This would I know write this power with his servery in-root
+Mark. I heard the prite of your actor call,
+Yet Cleotmis-graced Clifford shinely in time.
 
+LADY CAPULET:
+O, Edward:
+God put up your hand: may do marry at a hangman your grace,
+Shall call be conferm'd, as made a sock agai
+
+```
+This is EXTRAORDINAIRE
+
+
+---
 |                     | Entropy            | Cross -Entropy |
 | ------------------- | ------------------ | -------------- |
 | Bigram              | 4.894372904441695  | 2.4953         |
@@ -109,6 +138,6 @@ Jill to he broueds abl, p
 | Bigram SA (tweak)   | 4.515100429786052  | 2.3995         |
 | Bigram MSA          | 4.594609832702393  | 2.2683         |
 | Bigram MSA + RC     | 4.711498269264631  | 2.0869         |
-
+| Bigram Imba Karpathy tweaks |4.611705332367363   |1.4950  |
 
 
