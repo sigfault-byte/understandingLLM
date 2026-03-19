@@ -262,7 +262,8 @@ def shannon_entropy_text(text: str) -> float:
 
 
 # ----------------------------------
-
+start = time.time()
+interval_start = time.time()
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
 for iter in range(max_iters):
     # every once in a while evalutate the loss on train and val sets
@@ -271,6 +272,8 @@ for iter in range(max_iters):
         print(
             f"Step {iter}: train loss {losses['train']:.4f}, val loss {losses['val']:.4f}"
         )
+        print(f"Step {iter} took {time.time() - interval_start:.2f}s since last eval")
+        interval_start = time.time()
 
     if iter == 0:
         print("----First gen---------")
@@ -294,16 +297,21 @@ for iter in range(max_iters):
     loss.backward()
     optimizer.step()
 
+print(f"Total training time: {time.time() - start:.2f}s")
+
 # generate from the model
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
 print("-------------")
 print(
     f"After step {max_iters}, after a new line the 500 chars the model generates are:"
 )
-text = decode(m.generate(context, max_new_tokens=500)[0].tolist())
+text = decode(m.generate(context, max_new_tokens=5000)[0].tolist())
+
 print(text)
-print("-------------")
-print("------ENTROPY---------")
-entropy = shannon_entropy_text(text)
-print(f"Shannon Entropy is : {entropy}")
-print("----------------------")
+with open("sample_5000.txt", "w", encoding="utf-8") as f:
+    f.write(text)
+# print("-------------")
+# print("------ENTROPY---------")
+# # entropy = shannon_entropy_text(text)
+# print(f"Shannon Entropy is : {entropy}")
+# print("----------------------")

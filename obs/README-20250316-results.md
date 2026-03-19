@@ -127,7 +127,11 @@ God put up your hand: may do marry at a hangman your grace,
 Shall call be conferm'd, as made a sock agai
 
 ```
-This is EXTRAORDINAIRE
+This is **EXTRAORDINAIRE**
+
+The model speaks non-sense but it is structure, there is intent and logic.
+
+
 
 
 ---
